@@ -1,0 +1,61 @@
+# ⚙️ Rol de las clases `Service` en cada módulo de `devlog`
+
+Este documento describe de forma concisa y específica qué hace la **capa `service`** dentro de cada módulo del proyecto `devlog`. Su objetivo es servir como guía de referencia rápida para entender la responsabilidad funcional de los servicios, sin necesidad de leer todo el código.
+
+---
+
+## 🧠 DiarioService
+
+### 📍Ubicación
+`bitacora/diario/service/DiarioService.java`
+
+### 🧭 Propósito funcional
+- Se encarga de recibir entradas diarias del usuario y asegurarse de que se almacenen correctamente en la base de datos SQLite.
+- Evita duplicaciones: valida que no exista ya una entrada con la misma fecha.
+- Permite recuperar una entrada diaria por fecha específica.
+- Organiza las entradas si se necesita listarlas cronológicamente.
+- Está conectada al repositorio `DiarioRepository`, que se comunica con la entidad `DiarioEntry`.
+
+---
+
+## ⏱️ PomodoroService
+
+### 📍Ubicación
+`bitacora/pomodoro/service/PomodoroService.java`
+
+### 🧭 Propósito funcional
+- Registra el inicio y la finalización de sesiones Pomodoro.
+- Calcula la duración real de una sesión (desde el inicio hasta el fin).
+- Cambia el estado de la sesión: activo, pausado, finalizado.
+- Puede asociar sesiones con objetivos u otras entidades si es necesario.
+- Lleva un control cronológico para futuros análisis de productividad.
+
+---
+
+## 🎯 ObjetivoService
+
+### 📍Ubicación
+`bitacora/objetivos/service/ObjetivoService.java`
+
+### 🧭 Propósito funcional
+- Guarda nuevos objetivos técnicos definidos por el usuario.
+- Permite actualizar estado y prioridad de un objetivo (ej. marcar como completado).
+- Filtra objetivos por estado o prioridad si se requiere agrupar.
+- Podría calcular progreso total si se implementa un sistema de porcentajes.
+- Se comunica con el repositorio `ObjetivoRepository`, que persiste los datos en SQLite.
+
+---
+
+## 📚 Recomendaciones generales para los servicios
+
+- No deben contener anotaciones relacionadas con HTTP (`@GetMapping`, `@RequestBody`, etc.)
+- Solo interactúan con datos, validan reglas y usan el repositorio para guardar o consultar.
+- Idealmente, deben lanzar excepciones claras cuando algo no cumple con las reglas del dominio.
+- Pueden ser reutilizables desde otras capas o módulos.
+
+---
+
+## 📌 Notas
+
+- Cada `service` actúa como el **cerebro del módulo**: toma decisiones, valida, coordina.
+- Este documento puede expandirse conforme crezcas el proyecto (ej. agregar `LecturasService`, `ProgresoService`, etc.)
